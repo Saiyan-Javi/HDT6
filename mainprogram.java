@@ -33,13 +33,13 @@ public class mainprogram {
                     shopCart.add(addProduct(in, myMap));
                     break;
                 case 2:
-                    productCat(in, myMap);
+                    
                     break;
                 case 3:
-                    listProds(shopCart);
+                    
                     break;
                 case 4:
-                    listInventory(myMap);
+                    
                     break;
                 case 5:
                     in.close();
