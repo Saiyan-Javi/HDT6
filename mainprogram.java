@@ -50,6 +50,37 @@ public class mainprogram {
             }
         }
     }
+    public static String addProduct(Scanner in, Map<String, ArrayList<String>> myMap) {
+        System.out.println("Seleccione la categoría de productos que desea comprar.");
+        String cat = "";
+        String prod = "";
+
+        while (true) {
+            System.out.println(myMap.keySet());
+            cat = in.nextLine();
+
+            if (!(myMap.keySet().contains(cat))) {
+                System.out.println("Seleccione una opción válida.");
+            } else {
+                break;
+            }
+        }
+
+        System.out.println("Seleccione un producto.");
+
+        while (true) {
+            System.out.println(myMap.get(cat));
+            prod = in.nextLine();
+
+            if (!(myMap.get(cat).contains(prod))) {
+                System.out.println("Seleccione una opción válida.");
+            } else {
+                break;
+            }
+        }
+        System.out.println("Producto añadido!");
+        return prod;
+    }
     private static Map<String, ArrayList<String>> makeMap(Scanner in) {
         Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
 
