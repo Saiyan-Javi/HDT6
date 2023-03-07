@@ -51,6 +51,17 @@ public class mainprogram {
         }
     }
    
+    private static Map<String, ArrayList<String>> makeMap(Scanner in) {
+        Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
+
+        System.out.println("Seleccione el mapa a utilizar");
+        System.out.println("1. HashMap");
+        System.out.println("2. TreeMap");
+        System.out.println("3. LinkedHashMap");
+        int map = Integer.parseInt(in.nextLine());
+        Map<String, ArrayList<String>> myMap = mapMaker.newMap(map);
+        return myMap;
+    }
     public static String addProduct(Scanner in, Map<String, ArrayList<String>> myMap) {
         System.out.println("Seleccione la categoría de productos que desea comprar.");
         String cat = "";
@@ -86,17 +97,6 @@ public class mainprogram {
         System.out.println(cart);   
     }
     
-    private static Map<String, ArrayList<String>> makeMap(Scanner in) {
-        Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
-
-        System.out.println("Seleccione una opción para generar el mapa a utilizar en el programa.");
-        System.out.println("1. HashMap");
-        System.out.println("2. TreeMap");
-        System.out.println("3. LinkedHashMap");
-        int map = Integer.parseInt(in.nextLine());
-        Map<String, ArrayList<String>> myMap = mapMaker.newMap(map);
-        return myMap;
-    }
     private static Map<String, ArrayList<String>> readFile(String path, Map<String, ArrayList<String>> myMap) throws Exception {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
