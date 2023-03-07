@@ -11,67 +11,96 @@ public class mainprogram {
 
         Scanner in = new Scanner(System.in);
         ArrayList<String> shopCart = new ArrayList<>();
+        Map<String, ArrayList<String>> Nmap = makeMap(in);
 
-        Map<String, ArrayList<String>> myMap = makeMap(in);
-
-
+        //Lee el archivo en la misma ubicacion que del programa
         try {
-            myMap = readFile("ListadoProducto.txt", myMap);
+            Nmap = readFile("ListadoProducto.txt", Nmap);
         } catch (Exception e) {
             System.out.println("Revisar si el archivo se encuentra en el mismo lugar de este programa");
             System.exit(0);
         }
-
+        //Imprime menu con opciones
         System.out.println("Tienda virtual Don Canche");
 
         while (true) {
             System.out.println("\nEliga lo que desea hacer\n \n1. Añadir un producto al carrito\n2. Ver la categoería\n3.  Mostrar el carrito\n4. Mostrar inventario\n5. Salir del programa");
-            int option = Integer.parseInt(in.nextLine());
+            int opt = Integer.parseInt(in.nextLine());
 
-            switch (option) {
+            switch (opt) {
+                //Agrega al carrito
                 case 1:
-                    shopCart.add(addProduct(in, myMap));
+                    shopCart.add(addProduct(in, Nmap));
                     break;
+                //Muestra la categoria 
                 case 2:
                     //en producción
                     break;
+                //Muestra el carrito actual
                 case 3:
-                    listProds(shopCart);
+                    Carrito(shopCart);
                     break;
+                //Muestra el inventario 
                 case 4:
                     //en producción
                     break;
+                //Sale del programa
                 case 5:
-                    in.close();
                     System.exit(0);
+                //Programación defensiva
                 default:
-                    System.out.println("Por favor, ingrese una opción válida.");
+                    System.out.println("Ingrese un núero del 1 al 5");
                     break;
             }
         }
     }
-   
-    private static Map<String, ArrayList<String>> makeMap(Scanner in) {
-        Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
+    //Lee el archivo y lo pasa a formato UTF8, separandolos en categoria y producto identificando la | 
+    private static Map<String, ArrayList<String>> readFile(String path, Map<String, ArrayList<String>> Nmap) throws Exception {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
+            String line = null;
+            ArrayList<String> productos = new ArrayList<>();
+            String category = "";
+            String product = "";
 
-        System.out.println("Seleccione el mapa a utilizar");
-        System.out.println("1. HashMap");
-        System.out.println("2. TreeMap");
-        System.out.println("3. LinkedHashMap");
-        int map = Integer.parseInt(in.nextLine());
-        Map<String, ArrayList<String>> myMap = mapMaker.newMap(map);
-        return myMap;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                
+                if (!(category.equals(parts[0].trim()))) {
+                    productos = new ArrayList<>();
+                }
+                
+                category = parts[0].trim();
+                product = parts[1].trim();
+                productos.add(product);
+
+                Nmap.put(category, productos);
+            }
+            return Nmap;
+        } catch (Exception e) {
+            throw new Exception();
+        }
     }
-    public static String addProduct(Scanner in, Map<String, ArrayList<String>> myMap) {
+    //Crea el mapa en base a la seleccion del usuario
+    private static Map<String, ArrayList<String>> makeMap(Scanner in) {
+        Mfactory<String, ArrayList<String>> MAP = new Mfactory<>();
+
+        System.out.println("Seleccione el mapa a utilizar\n 1. HashMap\n 2. TreeMap\n 3. LinkedHashMap");
+        int map = Integer.parseInt(in.nextLine());
+        Map<String, ArrayList<String>> Nmap = MAP.newMap(map);
+        return Nmap;
+    }
+    //Métodod para agregar productos al carrito 
+    public static String addProduct(Scanner in, Map<String, ArrayList<String>> Nmap) {
         System.out.println("Seleccione la categoría de productos que desea comprar.");
-        String cat = "";
-        String prod = "";
+        String categoria = "";
+        String product = "";
 
         while (true) {
-            System.out.println(myMap.keySet());
-            cat = in.nextLine();
+            System.out.println(Nmap.keySet());
+            categoria = in.nextLine();
 
-            if (!(myMap.keySet().contains(cat))) {
+            if (!(Nmap.keySet().contains(categoria))) {
                 System.out.println("Seleccione una opción válida.");
             } else {
                 break;
@@ -81,47 +110,19 @@ public class mainprogram {
         System.out.println("Seleccione un producto.");
 
         while (true) {
-            System.out.println(myMap.get(cat));
-            prod = in.nextLine();
+            System.out.println(Nmap.get(categoria));
+            product = in.nextLine();
 
-            if (!(myMap.get(cat).contains(prod))) {
+            if (!(Nmap.get(categoria).contains(product))) {
                 System.out.println("Seleccione una opción válida.");
             } else {
                 break;
             }
         }
-        System.out.println("Producto añadido!");
-        return prod;
+        return product;
     }
-    public static void listProds(ArrayList<String> cart) {
+    //Método para imprimir la lista del carrito
+    public static void Carrito(ArrayList<String> cart) {
         System.out.println(cart);   
-    }
-    
-    private static Map<String, ArrayList<String>> readFile(String path, Map<String, ArrayList<String>> myMap) throws Exception {
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
-            String line = null;
-            ArrayList<String> products = new ArrayList<>();
-            String category = "";
-            String product = "";
-
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\\|");
-                
-                if (!(category.equals(parts[0].trim()))) {
-                    products = new ArrayList<>();
-                }
-                
-                category = parts[0].trim();
-                product = parts[1].trim();
-                products.add(product);
-
-                myMap.put(category, products);
-            }
-            reader.close();
-            return myMap;
-        } catch (Exception e) {
-            throw new Exception();
-        }
     }
 }
