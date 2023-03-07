@@ -33,13 +33,13 @@ public class mainprogram {
                     shopCart.add(addProduct(in, myMap));
                     break;
                 case 2:
-                    
+                    //en producción
                     break;
                 case 3:
-                    
+                    listProds(shopCart);
                     break;
                 case 4:
-                    
+                    //en producción
                     break;
                 case 5:
                     in.close();
@@ -50,6 +50,7 @@ public class mainprogram {
             }
         }
     }
+   
     public static String addProduct(Scanner in, Map<String, ArrayList<String>> myMap) {
         System.out.println("Seleccione la categoría de productos que desea comprar.");
         String cat = "";
@@ -81,6 +82,10 @@ public class mainprogram {
         System.out.println("Producto añadido!");
         return prod;
     }
+    public static void listProds(ArrayList<String> cart) {
+        System.out.println(cart);   
+    }
+    
     private static Map<String, ArrayList<String>> makeMap(Scanner in) {
         Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
 
