@@ -25,7 +25,7 @@ public class mainprogram {
         System.out.println("Tienda virtual Don Canche");
 
         while (true) {
-            printMenu();
+            System.out.println("\nEliga lo que desea hacer\n \n1. Añadir un producto al carrito\n2. Ver la categoería\n3.  Mostrar el carrito\n4. Mostrar inventario\n5. Salir del programa");
             int option = Integer.parseInt(in.nextLine());
 
             switch (option) {
