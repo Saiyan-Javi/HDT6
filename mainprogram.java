@@ -92,3 +92,31 @@ public class mainprogram {
         Map<String, ArrayList<String>> myMap = mapMaker.newMap(map);
         return myMap;
     }
+    private static Map<String, ArrayList<String>> readFile(String path, Map<String, ArrayList<String>> myMap) throws Exception {
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "UTF8"));
+            String line = null;
+            ArrayList<String> products = new ArrayList<>();
+            String category = "";
+            String product = "";
+
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split("\\|");
+                
+                if (!(category.equals(parts[0].trim()))) {
+                    products = new ArrayList<>();
+                }
+                
+                category = parts[0].trim();
+                product = parts[1].trim();
+                products.add(product);
+
+                myMap.put(category, products);
+            }
+            reader.close();
+            return myMap;
+        } catch (Exception e) {
+            throw new Exception();
+        }
+    }
+}
