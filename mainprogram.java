@@ -50,3 +50,14 @@ public class mainprogram {
             }
         }
     }
+    private static Map<String, ArrayList<String>> makeMap(Scanner in) {
+        Mfactory<String, ArrayList<String>> mapMaker = new Mfactory<>();
+
+        System.out.println("Seleccione una opción para generar el mapa a utilizar en el programa.");
+        System.out.println("1. HashMap");
+        System.out.println("2. TreeMap");
+        System.out.println("3. LinkedHashMap");
+        int map = Integer.parseInt(in.nextLine());
+        Map<String, ArrayList<String>> myMap = mapMaker.newMap(map);
+        return myMap;
+    }
